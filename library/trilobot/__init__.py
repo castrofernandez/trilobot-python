@@ -36,6 +36,8 @@ MOTOR_LEFT = 0
 MOTOR_RIGHT = 1
 NUM_MOTORS = 2
 
+def disableSn3218:
+    sn3218._get_sn3218().disable()
 
 class Trilobot():
     # User button pins
@@ -135,7 +137,7 @@ class Trilobot():
         self.underlight = [0 for i in range(18)]
         sn3218.output(self.underlight)
         sn3218.enable_leds(0b111111111111111111)
-        sn3218.disable()
+        disableSn3218()
 
         # setup ultrasonic sensor pins
         GPIO.setup(self.ULTRA_TRIG_PIN, GPIO.OUT)
@@ -147,7 +149,7 @@ class Trilobot():
     def __del__(self):
         """ Clean up GPIO and underlighting when the class is deleted.
         """
-        sn3218.disable()
+        disableSn3218()
         GPIO.cleanup()
 
     ###########
@@ -334,7 +336,7 @@ class Trilobot():
     def disable_underlighting(self):
         """ Disables Trilobot's underlighting, preserving the last set colors.
         """
-        sn3218.disable()
+        disableSn3218()
 
     def set_underlight(self, light, r_color, g=None, b=None, show=True):
         """ Sets a single underlight to a given RGB color.
